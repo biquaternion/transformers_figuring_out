@@ -5,13 +5,14 @@ import logging
 
 import numpy as np
 
+from src.layers.layer import Layer
 from src.utils.weigths_initialization import xavier_uniform
 
 logger = logging.getLogger('Linear')
 logging.basicConfig(level=logging.INFO)
 
 
-class Linear:
+class Linear(Layer):
     def __init__(self, in_features, out_features, random_state=42):
         logger.debug(f'Initializing Linear: {in_features}x{out_features}')
         self.weights = xavier_uniform((out_features, in_features))
@@ -34,6 +35,9 @@ class Linear:
     def step(self, lr):
         self.weights -= lr * self.dw
         self.bias -= lr * self.db
+
+    def parameters(self):
+        return self.weights, self.bias
 
 
 if __name__ == "__main__":
